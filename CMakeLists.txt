@@ -83,7 +83,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 2.8.6)
     VERSION "${URDF_VERSION}"
     COMPATIBILITY SameMajorVersion)
   
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${cmake_conf_version_file
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${cmake_conf_version_file}
           DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake/ 
           COMPONENT cmake)
 
