@@ -34,7 +34,13 @@ endif (MSVC OR MSVC90 OR MSVC10)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-find_package(TinyXML REQUIRED)
+# Try to find a TinyXMLConfig.cmake file
+find_package(TinyXML CONFIG QUIET)
+# if a TinyXML cmake config file is not found, fallback 
+# to use the FindTinyXML.cmake file 
+if(NOT TinyXML_FOUND) 
+   find_package(TinyXML REQUIRED)
+endif()
 include_directories(SYSTEM ${TinyXML_INCLUDE_DIRS})
 
 find_package(urdfdom_headers REQUIRED)
