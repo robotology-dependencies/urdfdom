@@ -60,7 +60,7 @@ if (NOT URDFDOM_DO_NOT_USE_CONSOLEBRIDGE)
     link_directories(${console_bridge_LIBRARY_DIRS})
 endif()
 
-find_package(Boost REQUIRED system thread)
+find_package(Boost REQUIRED function lexical_cast algorithm smart_ptr)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -74,7 +74,11 @@ add_subdirectory(urdf_parser)
 
 set(PKG_NAME ${PROJECT_NAME})
 set(PKG_LIBRARIES urdfdom_model urdfdom_world)
-set(PKG_DEPENDS urdfdom_headers console_bridge)
+if(NOT URDFDOM_DO_NOT_USE_CONSOLEBRIDGE)
+   set(PKG_DEPENDS urdfdom_headers console_bridge)
+else()
+   set(PKG_DEPENDS urdfdom_headers)
+endif()
 set(cmake_conf_file "cmake/urdfdom-config.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/${cmake_conf_file}
