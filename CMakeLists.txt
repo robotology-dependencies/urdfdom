@@ -60,7 +60,7 @@ if (NOT URDFDOM_DO_NOT_USE_CONSOLEBRIDGE)
     link_directories(${console_bridge_LIBRARY_DIRS})
 endif()
 
-find_package(Boost REQUIRED function lexical_cast algorithm smart_ptr)
+find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
