@@ -36,10 +36,10 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # CMake options
 option(URDFDOM_DO_NOT_USE_CONSOLEBRIDGE "If true do not use console_bridge for output messages, and rely on standard C functions." FALSE)
-option(URDFDOM_DO_NOT_USE_INSTALL_URDFPARSERPY "If true do not install the urdf_parser_py python package through CMake." FALSE)
+option(URDFDOM_DO_NOT_INSTALL_URDFPARSERPY "If true do not install the urdf_parser_py python package through CMake." FALSE)
 
-if(URDFDOM_DO_NOT_USE_USE_CONSOLEBRIDGE)
-    add_definitions(-DURDFDOM_DO_NOT_USE_USE_CONSOLEBRIDGE)
+if(URDFDOM_DO_NOT_USE_CONSOLEBRIDGE)
+    add_definitions(-DURDFDOM_DO_NOT_USE_CONSOLEBRIDGE)
 endif()
 
 # Try to find a TinyXMLConfig.cmake file
@@ -110,7 +110,7 @@ endif()
 
 # If the proper option is selected by the user
 # avoid trying to install urdf_parser_py via CMake
-if (NOT URDFDOM_DO_NOT_USE_INSTALL_URDFPARSERPY)
+if (NOT URDFDOM_DO_NOT_INSTALL_URDFPARSERPY)
     add_subdirectory(urdf_parser_py)
 endif()
 
