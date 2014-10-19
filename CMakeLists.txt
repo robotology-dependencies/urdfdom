@@ -34,11 +34,19 @@ endif (MSVC OR MSVC90 OR MSVC10)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# CMake options
+option(URDFDOM_DO_NOT_USE_CONSOLEBRIDGE "If true do not use console_bridge for output messages, and rely on standard C functions." FALSE)
+option(URDFDOM_DO_NOT_USE_INSTALL_URDFPARSERPY "If true do not install the urdf_parser_py python package through CMake." FALSE)
+
+if(URDFDOM_DO_NOT_USE_USE_CONSOLEBRIDGE)
+    add_definitions(-DURDFDOM_DO_NOT_USE_USE_CONSOLEBRIDGE)
+endif()
+
 # Try to find a TinyXMLConfig.cmake file
 find_package(TinyXML CONFIG QUIET)
-# if a TinyXML cmake config file is not found, fallback 
-# to use the FindTinyXML.cmake file 
-if(NOT TinyXML_FOUND) 
+# if a TinyXML cmake config file is not found, fallback
+# to use the FindTinyXML.cmake file
+if(NOT TinyXML_FOUND)
    find_package(TinyXML REQUIRED)
 endif()
 include_directories(SYSTEM ${TinyXML_INCLUDE_DIRS})
@@ -54,7 +62,7 @@ find_package(Boost REQUIRED system thread)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
-#In Visual Studio a special postfix for 
+#In Visual Studio a special postfix for
 #libraries compiled in debug is used
 if(MSVC)
 set(CMAKE_DEBUG_POSTFIX "d")
@@ -76,15 +84,15 @@ if(NOT CMAKE_VERSION VERSION_LESS 2.8.6)
   # Use write_basic_package_version_file to generate a ConfigVersion file that
   # allow users of urdfdom to specify the API or version to depend on
   # TODO: keep this instruction until deprecate Ubuntu/Precise and update with
-  # https://github.com/Kitware/CMake/blob/v2.8.8/Modules/CMakePackageConfigHelpers.cmake 
+  # https://github.com/Kitware/CMake/blob/v2.8.8/Modules/CMakePackageConfigHelpers.cmake
   include(WriteBasicConfigVersionFile)
   write_basic_config_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/${cmake_conf_version_file}
     VERSION "${URDF_VERSION}"
     COMPATIBILITY SameMajorVersion)
-  
+
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${cmake_conf_version_file}
-          DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake/ 
+          DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake/
           COMPONENT cmake)
 
 endif()
@@ -100,7 +108,11 @@ if (NOT MSVC)
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/ COMPONENT pkgconfig)
 endif()
 
-add_subdirectory(urdf_parser_py)
+# If the proper option is selected by the user
+# avoid trying to install urdf_parser_py via CMake
+if (NOT URDFDOM_DO_NOT_USE_INSTALL_URDFPARSERPY)
+    add_subdirectory(urdf_parser_py)
+endif()
 
 message(STATUS "Configuration successful. Type make to compile urdfdom")
 

@@ -32,40 +32,25 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Wim Meeussen */
+/* Author: Silvio Traversaro */
 
+#ifndef URDFDOM_OUTPUTDECL_H
+#define URDFDOM_OUTPUTDECL_H
 
-#include <urdf_world/world.h>
-#include <urdf_model/model.h>
-#include <urdf_parser/urdf_parser.h>
-#include <fstream>
-#include <sstream>
-#include <boost/lexical_cast.hpp>
-#include <algorithm>
-#include <tinyxml.h>
-#include "urdf_parser/outputdecl.h"
+#ifndef URDFDOM_DO_NOT_USE_CONSOLEBRIDGE
+// If not additional option is specified, use the control_bridge functions
+# include <console_bridge/console.h>
 
-namespace urdf{
+#else /* URDFDOM_DO_NOT_USE_CONSOLEBRIDGE */
+// If the user do not want to depend on console_bridge, define the output
+// function using standard C functions
+#include <cstdio>
 
-bool parseWorld(World &world, TiXmlElement* config)
-{
+# define logError(fmt, ...)  fprintf(stderr, fmt, ##__VA_ARGS__)
+# define logWarn(fmt, ...)   fprintf(stderr, fmt, ##__VA_ARGS__)
+# define logInform(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
+# define logDebug(fmt, ...)  fprintf(stderr, fmt, ##__VA_ARGS__)
 
-  // to be implemented
+#endif /* URDFDOM_DO_NOT_USE_CONSOLEBRIDGE */
 
-  return true;
-}
-
-bool exportWorld(World &world, TiXmlElement* xml)
-{
-  TiXmlElement * world_xml = new TiXmlElement("world");
-  world_xml->SetAttribute("name", world.name);
-
-  // to be implemented
-  // exportModels(*world.models, world_xml);
-
-  xml->LinkEndChild(world_xml);
-
-  return true;
-}
-
-}
+#endif /* URDFDOM_OUTPUTDECL_H */
