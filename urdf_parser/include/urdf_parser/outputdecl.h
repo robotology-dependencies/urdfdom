@@ -49,7 +49,11 @@
 # define logError(fmt, ...)  fprintf(stderr, fmt, ##__VA_ARGS__)
 # define logWarn(fmt, ...)   fprintf(stderr, fmt, ##__VA_ARGS__)
 # define logInform(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
+# ifndef NDEBUG
 # define logDebug(fmt, ...)  fprintf(stderr, fmt, ##__VA_ARGS__)
+# else
+# define logDebug(fmt, ...)
+# endif 
 
 #endif /* URDFDOM_DO_NOT_USE_CONSOLEBRIDGE */
 
