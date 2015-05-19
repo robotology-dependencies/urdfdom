@@ -52,6 +52,11 @@ void addChildJointNames(boost::shared_ptr<const Link> link, ofstream& os)
 {
   double r, p, y;
   for (std::vector<boost::shared_ptr<Link> >::const_iterator child = link->child_links.begin(); child != link->child_links.end(); child++){
+    // use blue for fixed joint and green for not-fixed joints
+    if( (*child)->parent_joint->type != Joint::FIXED  ) {
+      os << "\"" << (*child)->parent_joint->name << "\" [color=green, fontcolor=green];"  << endl;
+    }
+
     (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(r,p,y);
     os << "\"" << link->name << "\" -> \"" << (*child)->parent_joint->name 
        << "\" [label=\"xyz: "
