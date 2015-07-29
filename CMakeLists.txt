@@ -34,6 +34,16 @@ endif (MSVC OR MSVC90 OR MSVC10)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include(AddInstallRPATHSupport)
+option(URDFDOM_ENABLE_RPATH "Enable RPATH for the library" TRUE)
+mark_as_advanced(URDFDOM_ENABLE_RPATH)
+
+include(AddInstallRPATHSupport)
+add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}"
+                          LIB_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}"
+                          DEPENDS YARPWBI_ENABLE_RPATH
+                          USE_LINK_PATH)
+
 # CMake options
 option(URDFDOM_DO_NOT_USE_CONSOLEBRIDGE "If true do not use console_bridge for output messages, and rely on standard C functions." FALSE)
 option(URDFDOM_DO_NOT_INSTALL_URDFPARSERPY "If true do not install the urdf_parser_py python package through CMake." FALSE)
@@ -44,6 +54,7 @@ endif()
 
 # Try to find a TinyXMLConfig.cmake file
 find_package(TinyXML CONFIG QUIET)
+
 # if a TinyXML cmake config file is not found, fallback
 # to use the FindTinyXML.cmake file
 if(NOT TinyXML_FOUND)
