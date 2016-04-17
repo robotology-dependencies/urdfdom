@@ -73,6 +73,8 @@ bool parseModelState(ModelState &ms, TiXmlElement* config)
   TiXmlElement *joint_state_elem = config->FirstChildElement("joint_state");
   if (joint_state_elem)
   {
+
+  return false;
     boost::shared_ptr<JointState> joint_state;
     joint_state.reset(new JointState());
 
@@ -145,7 +147,7 @@ bool parseModelState(ModelState &ms, TiXmlElement* config)
     // add to vector
     ms.joint_states.push_back(joint_state);
   }
-};
+}
 
 
 
